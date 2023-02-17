@@ -1,0 +1,49 @@
+version: '2'
+
+services:
+  memcached1:
+    image: docker.io/bitnami/memcached:1
+    # ports:
+    #   - '11211:11210'
+  memcached2:
+    image: docker.io/bitnami/memcached:1
+    # ports:
+    #   - '11211:11212'
+  memcached3:
+    image: docker.io/bitnami/memcached:1
+    # ports:
+    #   - '11211:11213'
+  memcached:
+    image: tianon/true
+    depends_on: 
+    - memcached1
+    - memcached2
+    - memcached3
+  hashring:
+    build:
+      dockerfile: Dockerfile.python2
+    working_dir: '/scripts'
+    entrypoint: 'python hash_ring_test.py'
+    volumes:
+      - '.:/scripts'
+  pylibmc:
+    build:
+      dockerfile: Dockerfile.python3
+    working_dir: '/scripts'
+    entrypoint: 'python pylibmc_test.py'
+    volumes:
+      - '.:/scripts'
+  seed_with_pylibmc:
+    build:
+      dockerfile: Dockerfile.python3
+    working_dir: '/scripts'
+    entrypoint: 'python seed_with_pylibmc.py'
+    volumes: 
+      - '.:/scripts'
+  seed_with_hashring:
+    build:
+      dockerfile: Dockerfile.python2
+    working_dir: '/scripts'
+    entrypoint: 'python seed_with_hashring.py'
+    volumes: 
+      - '.:/scripts'
