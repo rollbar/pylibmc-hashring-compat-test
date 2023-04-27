@@ -1,5 +1,6 @@
 FROM python:2.7
 
 RUN pip install hash_ring 
+RUN pip install uhashring==1.2
 RUN pip install python-memcached
 RUN pip install pylibmc

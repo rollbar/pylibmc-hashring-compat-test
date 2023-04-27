@@ -3,16 +3,16 @@ version: '2'
 services:
   memcached1:
     image: docker.io/bitnami/memcached:1
-    # ports:
-    #   - '11211:11210'
+    ports:
+      - '11211:11211'
   memcached2:
     image: docker.io/bitnami/memcached:1
-    # ports:
-    #   - '11211:11212'
+    ports:
+      - '11212:11211'
   memcached3:
     image: docker.io/bitnami/memcached:1
-    # ports:
-    #   - '11211:11213'
+    ports:
+      - '11213:11211'
   memcached:
     image: tianon/true
     depends_on: 
@@ -23,6 +23,8 @@ services:
     build:
       dockerfile: Dockerfile.python2
     working_dir: '/scripts'
+    environment:
+      - NUMBER_ITEMS_TO_SEED=500
     entrypoint: 'python hash_ring_test.py'
     volumes:
       - '.:/scripts'
@@ -33,11 +35,13 @@ services:
     entrypoint: 'python pylibmc_test.py'
     volumes:
       - '.:/scripts'
-  seed_with_pylibmc:
+  seed_with_ingestion:
     build:
       dockerfile: Dockerfile.python3
     working_dir: '/scripts'
-    entrypoint: 'python seed_with_pylibmc.py'
+    entrypoint: 'python seed_with_ingestion.py'
+    environment:
+      - NUMBER_ITEMS_TO_SEED=500
     volumes: 
       - '.:/scripts'
   seed_with_hashring:
@@ -45,5 +49,24 @@ services:
       dockerfile: Dockerfile.python2
     working_dir: '/scripts'
     entrypoint: 'python seed_with_hashring.py'
+    environment:
+      - NUMBER_ITEMS_TO_SEED=500
     volumes: 
       - '.:/scripts'
+  seed_with_moxmemcache:
+    build:
+      dockerfile: Dockerfile.python2
+    working_dir: '/scripts'
+    entrypoint: 'python seed_with_moxmemcache.py'
+    environment:
+      - NUMBER_ITEMS_TO_SEED=500
+    volumes: 
+      - '.:/scripts'
+  
+  moxapi: 
+    image: moxapi:dev
+    entrypoint: node /app/scripts/seed_memcached.js
+    environment:
+      - NUMBER_ITEMS_TO_SEED=500
+    volumes: 
+      - './added_data:/app/added_data'
