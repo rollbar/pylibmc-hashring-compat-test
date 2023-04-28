@@ -12,6 +12,7 @@ Seed data with the ingestion way (pylibmc + uhashring), the new mox way (memcach
 docker compose run --rm -e NUMBER_ITEMS_TO_SEED=20000 seed_with_ingestion
 docker compose run --rm -e NUMBER_ITEMS_TO_SEED=20000 seed_with_hashring
 docker compose run --rm -e NUMBER_ITEMS_TO_SEED=20000 seed_with_moxmemcache
+docker compose run --rm -e NUMBER_ITEMS_TO_SEED=20000 seed_with_moxapi
 ```
 
 This will add + create a json dump of the added data in `added_data/`, which will be used when trying to pull up the keys later. 
