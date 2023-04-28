@@ -9,9 +9,9 @@ docker compose run --rm memcached
 Seed data with the ingestion way (pylibmc + uhashring), the new mox way (memcache + uhashring), and the old mox way (memcache hash_ring)
 
 ```bash
-docker compose run --rm -e NUMBER_ITEMS_TO_SEED=1000 seed_with_ingestion
-docker compose run --rm -e NUMBER_ITEMS_TO_SEED=1000 seed_with_hashring
-docker compose run --rm -e NUMBER_ITEMS_TO_SEED=1000 seed_with_moxmemcache
+docker compose run --rm -e NUMBER_ITEMS_TO_SEED=20000 seed_with_ingestion
+docker compose run --rm -e NUMBER_ITEMS_TO_SEED=20000 seed_with_hashring
+docker compose run --rm -e NUMBER_ITEMS_TO_SEED=20000 seed_with_moxmemcache
 ```
 
 This will add + create a json dump of the added data in `added_data/`, which will be used when trying to pull up the keys later. 
@@ -56,7 +56,7 @@ Searching with hash_ring memcached client
 
 Using the moxapi setup, try to get keys written by ingestion, hash_ring, and mox 
 ```bash
-➜  memcache-test git:(nodejs-compat) ✗  docker compose run -e NUMBER_ITEMS_TO_SEED=1000 moxapi_memcache_test
+➜  memcache-test git:(nodejs-compat) ✗  docker compose run -e NUMBER_ITEMS_TO_SEED=20000 moxapi_memcache_test
 Searching mox keys
 have not searched all keys yet, sleeping 0.5s
 Searching ingestion keys

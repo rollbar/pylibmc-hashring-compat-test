@@ -63,7 +63,12 @@ services:
     entrypoint: 'python seed_with_moxmemcache.py'
     volumes: 
       - '.:/scripts'
-  
+  seed_with_moxapi: 
+    # image: moxapi:dev  #if you build locally off of memcache-compat-test branch 
+    image: us.gcr.io/rollbar-staging/moxapi:memcache-test
+    entrypoint: node /app/scripts/write_to_memcached.js
+    volumes: 
+      - './added_data:/app/added_data'
   moxapi_memcache_test: 
     image: moxapi:dev #if you build locally off of memcache-compat-test branch
     # image: us.gcr.io/rollbar-staging/moxapi:memcache-test # moxapi:dev if you build locally off of memcache-compat-test branch
