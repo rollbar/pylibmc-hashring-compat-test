@@ -33,8 +33,6 @@ services:
       dockerfile: Dockerfile.python2
     working_dir: '/scripts'
     entrypoint: 'python mox_memcache_test.py'
-    environment:
-      - NUMBER_ITEMS_TO_SEED=500
     volumes:
       - '.:/scripts'
   ingestion_memcache_test:
@@ -42,8 +40,6 @@ services:
       dockerfile: Dockerfile.python3
     working_dir: '/scripts'
     entrypoint: 'python ingestion_memcache_test.py'
-    environment:
-      - NUMBER_ITEMS_TO_SEED=500
     volumes:
       - '.:/scripts'
   seed_with_ingestion:
@@ -51,8 +47,6 @@ services:
       dockerfile: Dockerfile.python3
     working_dir: '/scripts'
     entrypoint: 'python seed_with_ingestion.py'
-    environment:
-      - NUMBER_ITEMS_TO_SEED=500
     volumes: 
       - '.:/scripts'
   seed_with_hashring:
@@ -60,8 +54,6 @@ services:
       dockerfile: Dockerfile.python2
     working_dir: '/scripts'
     entrypoint: 'python seed_with_hashring.py'
-    environment:
-      - NUMBER_ITEMS_TO_SEED=500
     volumes: 
       - '.:/scripts'
   seed_with_moxmemcache:
@@ -69,16 +61,12 @@ services:
       dockerfile: Dockerfile.python2
     working_dir: '/scripts'
     entrypoint: 'python seed_with_moxmemcache.py'
-    environment:
-      - NUMBER_ITEMS_TO_SEED=500
     volumes: 
       - '.:/scripts'
   
-  moxapi_memcache_fetch: 
+  moxapi_memcache_test: 
     image: moxapi:dev #if you build locally off of memcache-compat-test branch
     # image: us.gcr.io/rollbar-staging/moxapi:memcache-test # moxapi:dev if you build locally off of memcache-compat-test branch
     entrypoint: node /app/scripts/fetch_from_memcached.js
-    environment:
-      - NUMBER_ITEMS_TO_SEED=500
     volumes: 
       - './added_data:/app/added_data'
